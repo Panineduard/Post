@@ -39,12 +39,15 @@ public class DeliveryTransport1 implements DeliveryTransport {
     private List<Ways> possible_waysHelp(PostOffice office1, Ways distance_traveled) {//¬озвращает список возможных путей с одной точки
         List<Ways> possibleWayFromThisOffice = new ArrayList<>();
         Transit1 transit1 = new Transit1();
-        List<Ways> d;
-        d = transit1.getTransitOffices();
-        for (Ways wey : d) {
+        List<Ways> possibleWay = transit1.getTransitOffices();
+        for (Ways wey : possibleWay) {
             if (wey != distance_traveled) {
-                if (wey.getStartOffice() == office1 || wey.getFinishOffice() == office1) {
+                if (wey.getStartOffice() == office1) {
                     possibleWayFromThisOffice.add(wey);
+                }
+                if (wey.getFinishOffice() == office1) {
+                    Ways invertedWay = new Ways(wey.getFinishOffice(), wey.getStartOffice());
+                    possibleWayFromThisOffice.add(invertedWay);
                 }
             }
         }
@@ -58,10 +61,9 @@ public class DeliveryTransport1 implements DeliveryTransport {
 
         List<PostOffice1> list;
         list = senderService1.getAllOffices();
-        PostOffice1 postOffice1;
+
         //ѕо посылке вы€сн€ем от куда и куда
-        for (int i = 0; i <= list.size() - 1; i++) {
-            postOffice1 = list.get(i);
+        for (PostOffice1 postOffice1 : list) {
             if (package1.getReceiverAddress() == postOffice1.getAddress()) {
                 this.destinationPostOffice = postOffice1;
             }
@@ -75,14 +77,13 @@ public class DeliveryTransport1 implements DeliveryTransport {
         List<Ways> possibl = deliveryTransport1.possible_waysHelp(startPostOffice, null);
 
         PostOffice nextPoint = new PostOffice1();
-        List<Ways> r = new ArrayList<>();
+        List<Ways> bufferWays = new ArrayList<>();
         TreeMap<Integer, List<Ways>> puty = new TreeMap<>();
         for (int i = 0; i <= variants - 1; ) {
             for (int j = 1; j <= 5; j++) {
                 Ways we = possibl.get(random.nextInt(possibl.size()));
-
-                r.add(we);
-                for (Ways equal : r) {
+                bufferWays.add(we);
+                for (Ways equal : bufferWays) {
                     if (equal == we) break;
                 }
                 if (we.getFinishOffice() == startOf) {
@@ -92,8 +93,8 @@ public class DeliveryTransport1 implements DeliveryTransport {
                     nextPoint = we.getFinishOffice();
                 }
                 if (nextPoint == destinationPostOffice) {
-                    if (r.size() > 1) {
-                        puty.put(i, new ArrayList(r));
+                    if (bufferWays.size() > 1) {
+                        puty.put(i, new ArrayList(bufferWays));
                         i++;
                         break;
                     } else break;
@@ -102,7 +103,7 @@ public class DeliveryTransport1 implements DeliveryTransport {
                 possibl = deliveryTransport1.possible_waysHelp(nextPoint, we);
                 startOf = nextPoint;
             }
-            r.clear();
+            bufferWays.clear();
             startOf = startPostOffice;
             possibl = deliveryTransport1.possible_waysHelp(startPostOffice, null);
         }

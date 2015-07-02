@@ -36,7 +36,7 @@ public class SenderService1 implements SenderService {
         PostOffice1 postOffice9 = new PostOffice1();
         PostOffice1 postOffice10 = new PostOffice1();
 
-        //1 почтовое отделение
+        //1
 
         AddressP addressP1 = new AddressP();
         postOffice1.setGeolocation(35, 50);
@@ -46,7 +46,7 @@ public class SenderService1 implements SenderService {
         postOffice1.setStamp(addressP1);
         postOffice1.setAddress(addressP1);
 
-        //2 почтовое отделение
+        //2
         AddressP addressP2 = new AddressP();
         postOffice2.setGeolocation(50, 64);
         addressP2.setCode(3);
@@ -55,7 +55,7 @@ public class SenderService1 implements SenderService {
         postOffice2.setStamp(addressP2);
         postOffice2.setAddress(addressP2);
 
-        //3 почтовое отделение
+        //3
         AddressP addressP3 = new AddressP();
         postOffice3.setGeolocation(10, 57);
         addressP3.setCode(4);
@@ -65,7 +65,7 @@ public class SenderService1 implements SenderService {
         postOffice3.setAddress(addressP3);
         postOffice3.setGeolocation(10, 57);
 
-        //4 почтовое отделение
+        //4
         AddressP addressP4 = new AddressP();
         postOffice4.setGeolocation(45, 15);
         addressP4.setCode(69);
@@ -74,7 +74,7 @@ public class SenderService1 implements SenderService {
         postOffice4.setStamp(addressP4);
         postOffice4.setAddress(addressP4);
 
-        //5 почтовое отделение
+        //5
         AddressP addressP5 = new AddressP();
         postOffice5.setGeolocation(87, 40);
         addressP5.setCode(57);
@@ -83,7 +83,7 @@ public class SenderService1 implements SenderService {
         postOffice5.setStamp(addressP5);
         postOffice5.setAddress(addressP5);
 
-        //6 почтовое отделение
+        //6
         AddressP addressP6 = new AddressP();
         postOffice6.setGeolocation(94, 54);
         addressP6.setCode(30);
@@ -92,7 +92,7 @@ public class SenderService1 implements SenderService {
         postOffice6.setStamp(addressP6);
         postOffice6.setAddress(addressP6);
 
-        //7 почтовое отделение
+        //7
         AddressP addressP7 = new AddressP();
         postOffice7.setGeolocation(85, 20);
         addressP7.setCode(32);
@@ -100,7 +100,7 @@ public class SenderService1 implements SenderService {
         addressP7.setStreet("Zadneprovskaya 9 ");
         postOffice7.setStamp(addressP7);
         postOffice7.setAddress(addressP7);
-        //8 почтовое отделение
+        //8
         AddressP addressP8 = new AddressP();
         postOffice8.setGeolocation(3445, 5055);
         addressP8.setCode(32);
@@ -108,7 +108,7 @@ public class SenderService1 implements SenderService {
         addressP8.setStreet("Lebedinskaya 2 ");
         postOffice8.setStamp(addressP8);
         postOffice8.setAddress(addressP8);
-        //9 почтовое отделение
+        //9
         AddressP addressP9 = new AddressP();
         postOffice9.setGeolocation(90, 65);
         addressP9.setCode(44);
@@ -116,7 +116,7 @@ public class SenderService1 implements SenderService {
         addressP9.setStreet("Fabrichnaya 1 ");
         postOffice9.setStamp(addressP9);
         postOffice9.setAddress(addressP9);
-        //10 почтовое отделение
+        //10
         AddressP addressP10 = new AddressP();
         postOffice10.setGeolocation(25, 70);
         addressP10.setCode(87);
@@ -137,7 +137,7 @@ public class SenderService1 implements SenderService {
         POST_OFFICES.add(postOffice9);
         POST_OFFICES.add(postOffice10);
 
-    }// Статический блок инициализаци
+    }
 
 
     @Override
@@ -164,27 +164,19 @@ public class SenderService1 implements SenderService {
             }
         }
     }
-
     @Override
     public boolean sendPackage(Package parcel, Ways wayses) {
         Storage.getInstance().putToStorage(parcel.getPackageId(), parcel);
-        //Если штамп посылке соответсвует адресу получателя то слать дальше не надо
         if ((Address) parcel.getStamp().getPostOfficeAddress() == (Address) parcel.getReceiverAddress()) {
             System.out.println(parcel.getStamp().getPostOfficeAddress().getCity());
-//            System.out.println(parcel.getStamp().getStampDate());
-
             return false;
         }
-        //если штамп не соответствует то
         else {
-
-            //Если штамп посылки равен штампу первого адреса пути то поменять на второй
             if ((Address) parcel.getStamp().getPostOfficeAddress() == (Address) wayses.getFinishOffice().getStamp().getPostOfficeAddress()) {
                 Stamp1 stamp = new Stamp1();
                 stamp.setPostOfficeAddress(wayses.getStartOffice().getAddress());
                 parcel.setStamp(stamp);
                 return true;
-
             }
             if ((Address) parcel.getStamp().getPostOfficeAddress() == (Address) wayses.getStartOffice().getStamp().getPostOfficeAddress()) {
                 Stamp1 stamp = new Stamp1();
@@ -195,33 +187,25 @@ public class SenderService1 implements SenderService {
             return true;
         }
     }
-
     @Override
     public PostOffice getPackageCurrentPosition(String id) {
-        //((Package1)Storage.getInstance().getById(id)).getStamp().getPostOfficeAddress();
-        Package1 package1 = (Package1)Storage.getInstance().getById(id);
-        PostOffice postOffice1 = new PostOffice1();
-        String fg;
-        fg = package1.getPackageId();
-        Address addressP = new AddressP();
-        System.out.println(fg);
-        System.out.println(package1);
-//        if(fg==id) {
-//            System.out.println(fg);
-//            addressP = package1.getStamp().getPostOfficeAddress();
-//            for (PostOffice p : POST_OFFICES) {
-//                if (p.getAddress() == addressP) {
-//                    postOffice1 = p;
-//                }
-//            }
-//            return postOffice1;
-//        }
-//        if(package1.getPackageId()!=id){System.out.println("You enter incorrect Id!!! ");
-//        return null;}
-
-        return POST_OFFICES.get(3);
-
-
+//       ((Package1)Storage.getInstance().getById(id)).getStamp().getPostOfficeAddress();
+        if ((Package1) Storage.getInstance().getById(id) == null) {
+            System.out.println("You enter the wrong ID");
+            return null;
+        } else {
+            Package1 package1 = (Package1) Storage.getInstance().getById(id);
+            PostOffice searchPostOffice = new PostOffice1();
+            String bufferID;
+            bufferID = package1.getPackageId();
+            System.out.println("You ID - " + bufferID);
+            for (PostOffice postOffice : POST_OFFICES) {
+                if (postOffice.getAddress() == package1.getStamp().getPostOfficeAddress()) {
+                    searchPostOffice = postOffice;
+                }
+            }
+            return searchPostOffice;
+        }
     }
 
     @Override
