@@ -24,7 +24,7 @@ public class Main {
 
 
     public static void main(String[] args) {
-        //Человек
+        //Человек//person
         Person1 person1 = new Person1();
         FullNameP fullNameP = new FullNameP();
         fullNameP.setNaime("Eduard");
@@ -49,9 +49,10 @@ public class Main {
         person1.setFullNameP(fullNameP2);
         person1.setAddressP(addressP1);
         //Принес посылку
-
+//        He brought a parcel
         Package1 package1 = new Package1();
         //На отделение почты по адресу отделения номер 2 и хочет отправит в отделение 4
+//        At the post office department at the number 2 and wants to go to the Department of 4
         Stamp1 stamp1 = new Stamp1();
         Address addressPost;
         Address addressPost2;
@@ -68,7 +69,8 @@ public class Main {
         package1.setReceiverFullName(fullNameP2);
         stamp1.setPostOfficeAddress(addressPost);
         package1.setStamp(stamp1);
-//       Вывести на экран возможные пути и их стоимость Выбрать один из них
+// Вывести на экран возможные пути и их стоимость Выбрать один из них
+// Display the possible ways and their cost Choose one
         Scanner scanner = new Scanner(System.in);
         DeliveryTransport1 deliveryTransport1 = new DeliveryTransport1();
         TreeMap<Integer, List<Ways>> n = new TreeMap<>();
@@ -84,46 +86,17 @@ public class Main {
         if (scanner.hasNextInt()) {
             ps = scanner.nextInt();
         }
-        //Подсчитать растояние и стоимость пути
+        //Подсчитать растояние и стоимость пути//Calculate the distance and the cost of the path
         Transit1 transit1 = new Transit1();
 
         System.out.println("The chosen route");
         System.out.println(n.get(ps));
         System.out.println((int) transit1.Distans(n.get(ps), DeliveryTransport.Type.AIR));
         System.out.println(transit1.getPrice());
-        //Теперь мы отправляем посылку9
+        //Теперь мы отправляем посылку//Now we will send the parcel
         senderService1.sendPackage1(package1, n.get(ps));
-        //Выясняем где наша посылка сейчас
+        //Выясняем где наша посылка сейчас//We find out where our package today
+        System.out.println("It is package in  " + senderService1.getPackageCurrentPosition("GAN").getAddress().getCity());
 
-        System.out.println(senderService1.getPackageCurrentPosition("GAN").getAddress().getCity());
-
-
-//      SenderService1 senderService1 =new  SenderService1();
-//       Transit1 transit1 = new  Transit1();
-//List<PostOffice1> list = new ArrayList<>();
-//       list=senderService1.getAllOffices();
-//       transit1.calculationOfDistances(list.get(1), list.get(2));
-//       System.out.println(transit1.calculationOfDistances(list.get(1), list.get(2)));
-//       Proba proba = new Proba();
-//       Proba.Type type =  proba.getType();
-//       type = Proba.Type.TEXT;
-//       System.out.println(type);
-//
-//       Package1 package1 =new Package1();
-//       Package1.Type type1 = package1.getType();
-//       System.out.println(Package.Type.T_10.getDescription());
-//       System.out.println(Package.Type.T_10.getMaxWeight());
-//
-//       SimpleDateFormat format1 = new SimpleDateFormat("dd.MM.yyyy hh:mm:s:Ms");
-//
-//       DeliveryTransport1 deliveryTransport1 = new DeliveryTransport1();
-
-
-        //Storage.getInstance().putToStorage("1", "Bla");
-        // Storage.getInstance().putToStorage("2", new Integer(45));
-        //Integer i = Storage.getInstance().<Integer>getById("2");
-        // String s = Storage.getInstance().<String>getById("1");
-        //i = Storage.getInstance().<Integer>getById("1");// don't do like this!!!! You should know about the type inside!!!
-        // System.out.println(Storage.getInstance().<Integer>getById("1"));// But you can do this here java doesn't do a cast to a variable
     }
 }
